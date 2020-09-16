@@ -28,7 +28,7 @@ points.goreTC = new Point(47.5,0)  //47.5 is half of width
 
 //here I'm defining a height above
 // points.goreLeftLine = new Point(0,-55.5)
-// points.goreLwrLeftCP = new Point(0,h/3) 
+ points.goreLwrLeftCP = new Point(0,h/3) 
 
 paths.lineL = new Path()
 .move(points.goreBR)  
@@ -41,26 +41,26 @@ paths.lineL = new Path()
 .curve_(points.goreLwrRightCP,points.goreBR) 
 
 
-/* paths.seam = new Path()
+ paths.seam = new Path()
     .move(points.topLeft)
     .line(points.bottomLeft)
     .line(points.bottomRight)
     .line(points.topRight)
     .line(points.topLeft)
     .close()
-    .attr('class', 'fabric') */
+    .attr('class', 'fabric')
 
   // Complete?
   if (complete) {
-   //points.logo = points.topLeft.shiftFractionTowards(points.bottomRight, 0.5)
-   //snippets.logo = new Snippet('logo', points.logo)
-   // points.text = points.logo
-   //  .shift(-90, w / 8)
-  //   .attr('data-text', 'hello')
-  //   .attr('data-text-class', 'center')
-//
+   points.logo = points.topLeft.shiftFractionTowards(points.bottomRight, 0.5)
+   snippets.logo = new Snippet('logo', points.logo)
+    points.text = points.logo
+     .shift(-90, w / 8)
+     .attr('data-text', 'hello')
+     .attr('data-text-class', 'center')
+
     if (sa) {
-     // paths.sa = paths.seam.offset(sa).attr('class', 'fabric sa')
+      paths.sa = paths.seam.offset(sa).attr('class', 'fabric sa')
     }
   }
 
