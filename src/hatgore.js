@@ -13,9 +13,10 @@ export default function(part) {
     macro
   } = part.shorthand()
 
-  //let w = 500 * options.size
-  let w=95, h=148, m=10
-    //here we have the orig size of our drawing box 95x148 plus 10mm margins
+  //let w = 500 * options.size // deal with the size thing eventually
+  let w=95, h=148   
+    //here we have the orig size of our drawing box on paper 95x148 
+    // it includes the 1/4 in. seam allowance which we need to deal with
   points.topLeft = new Point(0, 0)
   points.topRight = new Point(w, 0)
   points.bottomLeft = new Point(0, h)
@@ -27,7 +28,7 @@ points.goreBL = new Point(0,148)
 points.goreTC = new Point(47.5,0)  //47.5 is half of width
 
 //here I'm defining a height above
-// points.goreLeftLine = new Point(0,-55.5)
+// points.goreLeftLine = new Point(0,-55.5) //discarded this and went for the lower one
  points.goreLwrLeftCP = new Point(0,h/3) 
 
 paths.lineL = new Path()
@@ -52,12 +53,14 @@ paths.lineL = new Path()
 
   // Complete?
   if (complete) {
-   points.logo = points.topLeft.shiftFractionTowards(points.bottomRight, 0.5)
+   /*
+    points.logo = points.topLeft.shiftFractionTowards(points.bottomRight, 0.5)
    snippets.logo = new Snippet('logo', points.logo)
     points.text = points.logo
      .shift(-90, w / 8)
      .attr('data-text', 'hello')
      .attr('data-text-class', 'center')
+     */
 
     if (sa) {
       paths.sa = paths.seam.offset(sa).attr('class', 'fabric sa')
