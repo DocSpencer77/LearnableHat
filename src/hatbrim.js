@@ -33,11 +33,11 @@ export default function(part) {
     // Complete?
     if (complete) {
        points.logo = points.topLeft.shiftFractionTowards(points.bottomRight, 0.5)
-      //snippets.logo = new Snippet('logo', points.logo)
+      snippets.logo = new Snippet('logo', points.logo)
       points.text = points.logo
         .shift(-90, w / 8)
         .attr('data-text', 'hello')
-        .attr('data-text-class', 'center') */
+        .attr('data-text-class', 'center') 
   
       if (sa) {
         paths.sa = paths.seam.offset(sa).attr('class', 'fabric sa')
