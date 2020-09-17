@@ -23,7 +23,7 @@ export default function(part) {
     points.bottomLeft = new Point(0, h)
     points.bottomRight = new Point(w, h)
   
-    paths.seam = new Path()
+    paths.seam = new Path()  //will have to shift this over to the pattern piece rather than the box!
       .move(points.topLeft)
       .line(points.bottomLeft)
       .line(points.bottomRight)
@@ -45,12 +45,8 @@ export default function(part) {
 
     //Then, given our brim width we find the outsideBrimCF at the lower right of our "rectangle" workspace
     points.outsideBrimCF = new Point(points.insideBrimCF.x,(points.insideBrimCF.y)+(headCircumference*.10))
-
-
-
     // do I want to find the top left point of my brim center back yet?
-   
-    //points.outsideBrimQtrCircle = new Point(0, ((headCircumference*1.10)/2)/3.17)  //with a 48.5 meas, this will be 8.49 cm
+       //points.outsideBrimQtrCircle = new Point(0, ((headCircumference*1.10)/2)/3.17)  //with a 48.5 meas, this will be 8.49 cm
     points.outsideBrimQtrCircle = new Point(0,(innerRadius*1.10))  //with a 48.5 meas, this will be 8.49 cm
 
 
@@ -76,25 +72,54 @@ export default function(part) {
      ._curve(points.goreLwrLeftCP,points.goreTC)
     */
    
-   points.BcpOutsideCurve = new Point(0,(points.insideBrimQtrCircle.y)*2) // I double the y of the inner circle
-   points.CcpOutsideCurve = new Point((points.insideBrimQtrCircle.x * 1.5),points.outsideBrimCF.y)
-   paths.lwrOuterrBand = new Path()
-     .move(points.outsideBrimQtrCircle)
-     .curve(points.BcpOutsideCurve, points.CcpOutsideCurve, points.outsideBrimCF)
+    points.BcpOutsideCurve = new Point(0,(points.insideBrimQtrCircle.y)*2) // I double the y of the inner circle
+    points.CcpOutsideCurve = new Point((points.insideBrimQtrCircle.x * 1.5),points.outsideBrimCF.y)
+    paths.lwrOuterrBand = new Path()
+    .move(points.outsideBrimQtrCircle)
+    .curve(points.BcpOutsideCurve, points.CcpOutsideCurve, points.outsideBrimCF)
 
-     //lemme see about subtracting the width of the band... .10x head meas
+     //Subtracting to get the width of the band... .10x head circumference measure
      // that makes it narrower  my band is now 1/10th width of the Head Circumference the
     points.BcpInsideCurve = new Point(points.insideBrimQtrCircle.x,points.insideBrimQtrCircle.y * 1.7)
     points.CcpInsideCurve = new Point(points.insideBrimQtrCircle.x * 2,points.insideBrimCF.y)
-
-    //headCircumference/2)/3.17
-    //points.insideBrimCF.y
-
-   paths.lwrInnerBand = new Path()
+    paths.lwrInnerBand = new Path()
     .move(points.insideBrimQtrCircle)
-     //._curve(points.BcpInsideCurve,points.insideBrimCF)
-     .curve(points.BcpInsideCurve, points.CcpInsideCurve, points.insideBrimCF)
-     //.line(points.insideBrimCF)
+    .curve(points.BcpInsideCurve, points.CcpInsideCurve, points.insideBrimCF)
+    
+    // at the top, let's connect the center back seam with y=0 and the (x) our circumference * .1q
+    points.cbOuterSeam =new Point(headCircumference * .09,0) // so this will be 4.85*.09 for our inital test
+    points.cbInnerSeam =new Point((headCircumference * .09)*2,0)  // now I need to rotate this 45 degreees
+    //let's rotate it around cbOuterSeam
+    //points.cbInnerSeamR = new Point(points.cbInnerSeam.rotate(45,points.cbOuterSeam))
+
+    /*
+    set new points moon and sun
+    points.sun = new Point(40, 40);
+    points.moon = new Point(70, 40);
+
+     points,moon = points.moon.rotate(angle, points.sun);
+  
+     paths[moon] = new Path()
+     .move(points.sun)
+     .line(points[moon);
+    
+    */
+
+
+
+
+    paths.backBrim = new Path()
+      .move(points.cbOuterSeam)
+      .line(points.outsideBrimQtrCircle)
+      //also I need to curve the lines up from the quarterCircle points!
+
+      // let's see if we can do a 45 degree angle from cb outer seam, the width of our brim
+      // and then connect wth insideBrimQtrCircle  Maybe?
+      //a new point, using a shift from cbOuterSeam
+
+    
+      
+
 
 
 
