@@ -92,18 +92,40 @@ export default function(part) {
     //let's rotate it around cbOuterSeam
     //points.cbInnerSeamR = new Point(points.cbInnerSeam.rotate(45,points.cbOuterSeam))
 
-    /*
-    set new points moon and sun
-    points.sun = new Point(40, 40);
-    points.moon = new Point(70, 40);
-
-     points,moon = points.moon.rotate(angle, points.sun);
-  
-     paths[moon] = new Path()
-     .move(points.sun)
-     .line(points[moon);
     
-    */
+    //set new points moon and sun
+    
+    //points.sun = new Point(43.65,0);
+    points.cbOuterSeam = new Point(headCircumference * .09,0)
+    points.cbInnerSeam = new Point((headCircumference * .09)*2,0);
+    
+    points.sun = new Point(43.65,0);
+    points.moon = new Point(87.3,0);
+   
+    let angle = -30
+    points.moon = points.moon.rotate(angle, points.sun);
+    //points.cbInnerSeam = points.cbInnerSeam.rotate(angle,points.cbOuterSeam);
+    
+    paths.moon = new Path()
+     .move(points.sun)
+     .line(points.moon)
+     .line(points.insideBrimQtrCircle)
+     //paths.moon = new Path().move(points.sun).line(points.moon);
+    
+
+// kinda nuts... it just doeesn't like my point names.  Moon and Sun are groovy. <shrug>
+
+//another day
+
+
+    //point.insideBrimQtrCircle  
+    //point.cbOuterSeam
+    //point.insideBrimQtrCircle  
+    
+   //paths.toCtrBack = new Path()
+   // .move(point.insideBrimQtrCircle)
+   // .line(point.cbOuterSeam)
+    //.line(point.cbOuterCircle)
 
 
 
