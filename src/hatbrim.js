@@ -92,25 +92,32 @@ export default function(part) {
     //let's rotate it around cbOuterSeam
     //points.cbInnerSeamR = new Point(points.cbInnerSeam.rotate(45,points.cbOuterSeam))
 
-    
+    //goofy... I just hard coded these.  Need to get the real
+    // names/definitions from aboove
     //set new points moon and sun
-    
-    //points.sun = new Point(43.65,0);
+        //points.sun = new Point(43.65,0);
     points.cbOuterSeam = new Point(headCircumference * .09,0)
     points.cbInnerSeam = new Point((headCircumference * .09)*2,0);
     
-    points.sun = new Point(43.65,0);
-    points.moon = new Point(87.3,0);
+    //points.sun = new Point(43.65,0);
+    //points.moon = new Point(87.3,0);
+
+    // well, okiedoke... htat works okay
+    // points.sun = new Point(headCircumference * .09,0)
+    // points.moon = new Point((headCircumference * .09)*2,0);
+
    
     let angle = -30
-    points.moon = points.moon.rotate(angle, points.sun);
+    //points.moon = points.moon.rotate(angle, points.sun);
+    points.cbInnerSeam = points.cbInnerSeam.rotate(angle, points.cbOuterSeam);
     //points.cbInnerSeam = points.cbInnerSeam.rotate(angle,points.cbOuterSeam);
     
-    paths.moon = new Path()
-     .move(points.sun)
-     .line(points.moon)
+    //okay, I think it's switched over now.
+    paths.cbInnerSeam = new Path()
+     .move(points.cbOuterSeam)
+     .line(points.cbInnerSeam)
      .line(points.insideBrimQtrCircle)
-     //paths.moon = new Path().move(points.sun).line(points.moon);
+     
     
 
 // kinda nuts... it just doeesn't like my point names.  Moon and Sun are groovy. <shrug>
