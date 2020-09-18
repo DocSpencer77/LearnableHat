@@ -15,7 +15,8 @@ export default function(part) {
   } = part.shorthand()
 
   var headCircumference = 48.5
-  let w=(((measurements.headCircumference/6) + (6.5*2))), h=w*1.58          //  new height head circm 2 width
+  let w=(((measurements.headCircumference/6) + (6.5*2)))
+  , h=w*1.58          //  new height head circm 2 width
 
 //let's get points of our gore starting with bottom right
 points.goreBR = new Point(w,h)
