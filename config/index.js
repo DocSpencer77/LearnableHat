@@ -28,7 +28,7 @@ export default {
   dependencies: {},
   inject: {},
   hide: [],
-  parts: ["hatgore","hatbrim"], //add 'hatbrim'
+  parts: ["hatgore","hatbrim","brimv2"], //add  "brimv2"
   options: {
     size: { pct: 50, min: 10, max: 100 }
   }
