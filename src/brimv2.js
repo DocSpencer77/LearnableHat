@@ -105,12 +105,18 @@ paths.rect = new Path()
   
   // follow up.  I'm too tired.  
   // this top one needs a twin downward
-  points.edgeLeftCp = points.edgeLeft.shiftFractionTowards(points.topLeft, 0.5);
+  points.edgeLeftCp1 = points.edgeLeft.shiftFractionTowards(points.topLeft, 0.5);
+  points.edgeLeftCp2 = points.edgeLeft.shiftFractionTowards(points.topLeft, -0.5);
 
   // this one needs a flip
-  points.edgeRightCp = points.edgeLeftCp.flipX();
-  
+  points.edgeRightCp1 = points.edgeLeftCp1.flipX();
+  points.edgeRightCp2 = points.edgeLeftCp2.flipX();
+   
+  // and here we need a bottom left and bottom right
   points.edgeTopLeftCp = points.edgeTop.shiftFractionTowards(points.topLeft,0.5);
+  points.edgeBottomLeftCp = points.edgeBottom.shiftFractionTowards(points.bottomLeft,0.5);
+  points.edgeBottomRightCp = points.edgeBottom.shiftFractionTowards(points.bottomLeft,-0.5);
+
   points.edgeTopRightCp = points.edgeTopLeftCp.flipX();
 
   
