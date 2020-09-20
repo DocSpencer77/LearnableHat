@@ -122,13 +122,19 @@ paths.rect = new Path()
   
 
 // here, we use out new control points to curve our corners!
-  // paths.rect = new Path()
-  // .move(points.edgeTop)
-  // .curve(points.edgeTopLeftCp, points.edgeLeftCp, points.edgeLeft)
-  // .line(points.bottomLeft)
-  // .line(points.bottomRight)
-  // .line(points.edgeRight)
-  // .curve(points.edgeRightCp, points.edgeTopRightCp, points.edgeTop)
+   paths.rect = new Path()
+   .move(points.edgeTop) // the top center point of our square box
+   //.curve(points.edgeTopLeftCp, points.edgeTopLeftCp, points.edgeLeft)
+   .curve(points.edgeTopLeftCp, points.edgeLeftCp1, points.edgeLeft)
+
+   .curve(points.edgeLeftCp2, points.edgeBottomLeftCp, points.edgeBottom)
+   .curve(points.edgeBottomRightCp, points.edgeRightCp2, points.edgeRight)
+   
+   //.line(points.bottomLeft)
+   //.line(points.bottomRight)
+   //.line(points.edgeRight)
+
+   .curve(points.edgeRightCp1, points.edgeTopRightCp, points.edgeTop)
   // .close();
   
 
