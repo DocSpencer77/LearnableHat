@@ -125,7 +125,8 @@ points.bottomRight = points.topRight.shift(-90, width);
    points.cbRightTop = new Point(points.cbRight.x, points.edgeTop.y);
    points.cbRightBottom = new Point(points.cbRight.x, points.top.y);
 
-// maybe I can just rotate thos?
+// maybe I can just rotate thos? perhaps the answer is rotating a much longer list.
+// and I need to work my paths out to the ends of the overlapping center back edges, first
 let rotateThese = [
   "cbRight",
   "cbRightTop",
@@ -135,7 +136,7 @@ while (points.cbRightBottom.x > -5) {
   for (let p of rotateThese) points[p] = points[p].rotate(1, points.edgeLeft);
 } 
 
- paths.seamNeckR = new Path() //still a "rect" though now a square
+ paths.seamNeckR = new Path() //still called a "rect" though now a square
    
  //rather than top, we'll make the path connect to cb right bottom
  .move(points.cbRightTop)
