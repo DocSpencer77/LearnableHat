@@ -92,7 +92,38 @@ paths.rect = new Path()
   .line(points.topLeft)
   .close();
 
+  // here we place some control points at the top of our rectange (path.rect) to
+  // prepare for opening up one side of our brim  
 
+  points.edgeLeft = new Point(points.topLeft.x, points.left.y);
+  points.edgeRight = new Point(points.topRight.x, points.right.y);
+  
+
+  points.edgeTop = new Point(0, points.topLeft.y);
+  //change to bottom
+  points.edgeBottom = new Point(0, points.bottomLeft.y);
+  
+  // follow up.  I'm too tired.  
+  // this top one needs a twin downward
+  points.edgeLeftCp = points.edgeLeft.shiftFractionTowards(points.topLeft, 0.5);
+
+  // this one needs a flip
+  points.edgeRightCp = points.edgeLeftCp.flipX();
+  
+  points.edgeTopLeftCp = points.edgeTop.shiftFractionTowards(points.topLeft,0.5);
+  points.edgeTopRightCp = points.edgeTopLeftCp.flipX();
+
+  
+
+// here, we use out new control points to curve our corners!
+  // paths.rect = new Path()
+  // .move(points.edgeTop)
+  // .curve(points.edgeTopLeftCp, points.edgeLeftCp, points.edgeLeft)
+  // .line(points.bottomLeft)
+  // .line(points.bottomRight)
+  // .line(points.edgeRight)
+  // .curve(points.edgeRightCp, points.edgeTopRightCp, points.edgeTop)
+  // .close();
   
 
 
