@@ -11,12 +11,8 @@ export default function(part) {
 
 // Design pattern here
 
-//points.right = new Point(measurements.headCircumference / 10, 0);
-//points.bottom = new Point(0, measurements.headCircumference / 12);
-
 points.right = new Point(measurements.headCircumference / 10, 0);
 points.bottom = new Point(0, measurements.headCircumference / 12);
-
 
 points.rightCp1 = points.right
   .shift(90, points.bottom.dy(points.right)/2);
@@ -33,9 +29,6 @@ paths.neck = new Path()
 let target = (measurements.headCircumference * 1.1) /4;
 let delta;
 do {
-	// points.right = new Point(tweak * measurements.headCircumference / 10, 0);
-  // points.bottom = new Point(0, tweak * measurements.headCircumference / 12);
-  //maybe just 11 for both???
   points.right = new Point(tweak * measurements.headCircumference / 11, 0);
   points.bottom = new Point(0, tweak * measurements.headCircumference / 11);
   //make it round!!
@@ -72,43 +65,41 @@ paths.neck = new Path()
   .close();
 
   // now the box and some difference from the other stuff
-// the question here is whether to get the length by measuring the distance at the top?
+// The original bib code made a rectangle; now it's a square box
 //here, I've just used the width addition for both but it's still not in the middle
 let width = measurements.headCircumference * .5
 let length = measurements.headCircumference * .5
 
+
 points.topLeft = new Point(width /-2,  points.top.y - (width/2 - points.right.x));
 points.topRight = points.topLeft.shift(0, width);
-// points.bottomLeft = points.topLeft.shift(-90, length);
-// points.bottomRight = points.topRight.shift(-90, length);
 points.bottomLeft = points.topLeft.shift(-90, width);
 points.bottomRight = points.topRight.shift(-90, width);
 
-paths.rect = new Path()
-  .move(points.topLeft)
-  .line(points.bottomLeft)
-  .line(points.bottomRight)
-  .line(points.topRight)
-  .line(points.topLeft)
-  .close();
+// paths.rect = new Path() //still a "rect" though now a square
+//   .move(points.topLeft)
+//   .line(points.bottomLeft)
+//   .line(points.bottomRight)
+//   .line(points.topRight)
+//   .line(points.topLeft)
+//   .close();
 
-  // here we place some control points at the top of our rectange (path.rect) to
-  // prepare for opening up one side of our brim  
+  // here we place some control points at the top of our previous bib rectange (path.rect) to
+  // prepare for opening up one side of our brim.  We rename a few to make them more specific
 
   points.edgeLeft = new Point(points.topLeft.x, points.left.y);
   points.edgeRight = new Point(points.topRight.x, points.right.y);
   
-
   points.edgeTop = new Point(0, points.topLeft.y);
-  //change to bottom
+  //change it to be a bottom point
   points.edgeBottom = new Point(0, points.bottomLeft.y);
   
-  // follow up.  I'm too tired.  
-  // this top one needs a twin downward
+  
+  // this top one needs a twin on the bottom
   points.edgeLeftCp1 = points.edgeLeft.shiftFractionTowards(points.topLeft, 0.5);
   points.edgeLeftCp2 = points.edgeLeft.shiftFractionTowards(points.topLeft, -0.5);
 
-  // this one needs a flip
+  // these need a flip, too
   points.edgeRightCp1 = points.edgeLeftCp1.flipX();
   points.edgeRightCp2 = points.edgeLeftCp2.flipX();
    
@@ -119,30 +110,52 @@ paths.rect = new Path()
 
   points.edgeTopRightCp = points.edgeTopLeftCp.flipX();
 
-  
-
 // here, we use out new control points to curve our corners!
-   paths.rect = new Path()
+   paths.seam = new Path()
    .move(points.edgeTop) // the top center point of our square box
-   //.curve(points.edgeTopLeftCp, points.edgeTopLeftCp, points.edgeLeft)
    .curve(points.edgeTopLeftCp, points.edgeLeftCp1, points.edgeLeft)
 
    .curve(points.edgeLeftCp2, points.edgeBottomLeftCp, points.edgeBottom)
    .curve(points.edgeBottomRightCp, points.edgeRightCp2, points.edgeRight)
-   
-   //.line(points.bottomLeft)
-   //.line(points.bottomRight)
-   //.line(points.edgeRight)
-
+   // this curves around the right side and closes the circle at the top
    .curve(points.edgeRightCp1, points.edgeTopRightCp, points.edgeTop)
-  // .close();
   
+   let centerBackSeamR = points.edgeTop.dy(points.top);
+   points.cbRight = points.edgeTop.translate(centerBackSeamR / 2, centerBackSeamR / 2);
+   points.cbRightTop = new Point(points.cbRight.x, points.edgeTop.y);
+   points.cbRightBottom = new Point(points.cbRight.x, points.top.y);
 
+// maybe I can just rotate thos?
+let rotateThese = [
+  "cbRight",
+  "cbRightTop",
+  "cbRightBottom"
+];
+while (points.cbRightBottom.x > -5) {
+  for (let p of rotateThese) points[p] = points[p].rotate(1, points.edgeLeft);
+} 
+
+ paths.seamNeckR = new Path() //still a "rect" though now a square
+   
+ //rather than top, we'll make the path connect to cb right bottom
+ .move(points.cbRightTop)
+ .line(points.cbRight)
+ .line(points.cbRightBottom)
+
+ points.cbLeftTop = points.cbRightTop.flipX()
+ points.cbLeft = points.cbRight.flipX()
+ points.cbLeftBottom = points.cbRightBottom.flipX()
+
+ paths.seamNeckL = new Path() //still a "rect" though now a square
+ .move(points.cbLeftTop)
+.line(points.cbLeft)
+.line(points.cbLeftBottom)
 
 
 
 
   // Complete?
+
   if (complete) {
     if (sa) {
     }
