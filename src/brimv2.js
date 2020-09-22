@@ -19,9 +19,10 @@ points.rightCp1 = points.right
 points.bottomCp2 = points.bottom
   .shift(0, points.bottom.dx(points.right)/2);
 
-paths.neck = new Path()
-  .move(points.right)
-  .curve(points.rightCp1, points.bottomCp2, points.bottom)
+// is duplicated below
+  // paths.neck = new Path()
+//   .move(points.right)
+//   .curve(points.rightCp1, points.bottomCp2, points.bottom)
 
   // now the tweak to make sure it's exactly the right size for the head 
 
@@ -59,10 +60,10 @@ points.topCp2 = points.bottomCp1.flipY();
 paths.neck = new Path()
   .move(points.top)
   .curve(points.topCp2, points.leftCp1, points.left)
-  .curve(points.leftCp2, points.bottomCp1, points.bottom)
-  .curve(points.bottomCp2, points.rightCp1, points.right)
-  .curve(points.rightCp2, points.topCp1, points.top)
-  .close();
+  // .curve(points.leftCp2, points.bottomCp1, points.bottom)
+  // .curve(points.bottomCp2, points.rightCp1, points.right)
+  // .curve(points.rightCp2, points.topCp1, points.top)
+  // .close();
 
   // now the box and some difference from the other stuff
 // The original bib code made a rectangle; now it's a square box
@@ -129,14 +130,17 @@ paths.rect = new Path() //still a "rect" though now a square
 
 // maybe I can just rotate thos? perhaps the answer is rotating a much longer list.
 // and I need to work my paths out to the ends of the overlapping center back edges, first
-// let rotateThese = [
-//   "cbRight",
-//   "cbRightTop",
-//   "cbRightBottom"
-// ];
-// while (points.cbRightBottom.x > -1) {
-//   for (let p of rotateThese) points[p] = points[p].rotate(1, points.edgeLeft);
-// } 
+
+/*
+  let rotateThese = [
+    "edgeTopLeftCp",
+    "edgeTop",
+
+  ];
+  while (points.tipRightBottomStart.x > -1) {
+    for (let p of rotateThese) points[p] = points[p].rotate(1, points.edgeLeft);
+   } 
+*/
 
  paths.seamNeckR = new Path() //still called a "rect" though now a square
   .move(points.edgeTop) 
