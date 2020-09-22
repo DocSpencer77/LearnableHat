@@ -135,7 +135,7 @@ export default function(part) {
   //   "cbRightBottom"
   // ];
   // while (points.cbRightBottom.x > -1) {
-  //   for (let p of rotateThese) points[p] = points[p].rotate(1, points.edgeLeft);
+  //   for (let p of rotateThese) points[p] = points[p].rotate(1, points.left);
   // } 
   
    paths.seamNeckR = new Path() //still called a "rect" though now a square

@@ -10,31 +10,30 @@ export default function(part) {
   } = part.shorthand();
 
 // Design pattern here
+// First, one quarter of the head circumference.  Then we'll flip it up and over
+// to create the rest of the circle
 
+//we're setting the right edge and bottom edge generally and will
+//make them the exact size in a bit.
 points.right = new Point(measurements.headCircumference / 10, 0);
 points.bottom = new Point(0, measurements.headCircumference / 12);
 
+// the control points are placed at right angles--90 degrees--they'll be used to form  Bezier curves
 points.rightCp1 = points.right
   .shift(90, points.bottom.dy(points.right)/2);
 points.bottomCp2 = points.bottom
   .shift(0, points.bottom.dx(points.right)/2);
 
-// is duplicated below
-  // paths.neck = new Path()
-//   .move(points.right)
-//   .curve(points.rightCp1, points.bottomCp2, points.bottom)
-
-  // now the tweak to make sure it's exactly the right size for the head 
-
+ // now the tweak code makes sure it's exactly the right size for the head 
   let tweak = 1;
 let target = (measurements.headCircumference*.90) /4;
 let delta;
 do {
   points.right = new Point(tweak * (measurements.headCircumference/2) / 11, 0);
   points.bottom = new Point(0, tweak * (measurements.headCircumference/2) / 11);
-  //make it round!!
-
-	points.rightCp1 = points.right.shift(90, points.bottom.dy(points.right)/2);
+ 
+//here we're flipping our 1/4 of a circle to make it a full, round circle
+  points.rightCp1 = points.right.shift(90, points.bottom.dy(points.right)/2);
 	points.bottomCp2 = points.bottom.shift(0, points.bottom.dx(points.right)/2);
 
  paths.neck = new Path()
@@ -59,11 +58,12 @@ points.topCp2 = points.bottomCp1.flipY();
 
 paths.neck = new Path()
   .move(points.top)
-  .curve(points.topCp2, points.leftCp1, points.left)
-  // .curve(points.leftCp2, points.bottomCp1, points.bottom)
-  // .curve(points.bottomCp2, points.rightCp1, points.right)
-  // .curve(points.rightCp2, points.topCp1, points.top)
-  // .close();
+  // now we'll redraw the line all around
+  .curve(points.topCp2, points.leftCp1, points.left) //top left
+  .curve(points.leftCp2, points.bottomCp1, points.bottom) //bottom left
+  .curve(points.bottomCp2, points.rightCp1, points.right) // bottom right
+  .curve(points.rightCp2, points.topCp1, points.top)  // top right quarter
+  // .close(); // apparently not needed
 
   // now the box and some difference from the other stuff
 // The original bib code made a rectangle; now it's a square box
@@ -75,13 +75,13 @@ points.topRight = points.topLeft.shift(0, width);
 points.bottomLeft = points.topLeft.shift(-90, width);
 points.bottomRight = points.topRight.shift(-90, width);
 
-paths.rect = new Path() //still a "rect" though now a square
-  .move(points.topLeft)
-  .line(points.bottomLeft)
-  .line(points.bottomRight)
-  .line(points.topRight)
-  .line(points.topLeft)
-  .close();
+// paths.rect = new Path() //still a "rect" though now a square
+//   .move(points.topLeft)
+//   .line(points.bottomLeft)
+//   .line(points.bottomRight)
+//   .line(points.topRight)
+//   .line(points.topLeft)
+//   .close();
 
   // here we place some control points at the top of our previous bib rectange (path.rect) to
   // prepare for opening up one side of our brim.  We rename a few to make them more specific
@@ -128,30 +128,74 @@ paths.rect = new Path() //still a "rect" though now a square
    points.cbRightTop = new Point(points.cbRight.x, points.edgeTop.y);
    points.cbRightBottom = new Point(points.cbRight.x, points.top.y);
 
+
+
+
+
 // maybe I can just rotate thos? perhaps the answer is rotating a much longer list.
 // and I need to work my paths out to the ends of the overlapping center back edges, first
 
-/*
-  let rotateThese = [
-    "edgeTopLeftCp",
-    "edgeTop",
+//so this little section is my rotating test
+// 
 
-  ];
-  while (points.tipRightBottomStart.x > -1) {
-    for (let p of rotateThese) points[p] = points[p].rotate(1, points.edgeLeft);
-   } 
-*/
+// points.sun = new Point(40, 40);
+// points.moon = new Point(70, 40);
+//==================================
+//points.sun = points.left
+//points.moon = new Point(10, 10);
+//let angle = 45
+//points.moon = points.moon.rotate(angle, points.sun); // so the alternative is to use the iteration
+//paths.moon = new Path().move(points.sun).line(points.moon);
+//=============================================================
 
- paths.seamNeckR = new Path() //still called a "rect" though now a square
-  .move(points.edgeTop) 
- .line(points.cbRightTop)
- .line(points.cbRight)
- .line(points.cbRightBottom)
- .line(points.top)
+// here's the sample points above in the iterator
+// let rotateThese = [
+//     "moon"
+// ];
+// while (points.moon.x > -10) {
+//   for (let p of rotateThese) points[p] = points[p].rotate(1, points.sun);
+// }
+// paths.moon = new Path().move(points.sun).line(points.moon);
 
- points.cbLeftTop = points.cbRightTop.flipX()
- points.cbLeft = points.cbRight.flipX()
- points.cbLeftBottom = points.cbRightBottom.flipX()
+//==============================================================================
+// didn't need a different name
+// next up... let's use the old names
+////////////////////////////////////////////////////////////////////////////////////////
+// so a new point for top and edge top
+// points.leftTopEdge = points.edgeTop
+// points.leftInnerEdge = points.top
+
+
+// //okay, it doesn't need new names.  Good.
+//   let rotateThese = [
+//     'leftTopEdge'
+//     , 'leftInnerEdge'
+
+//   ];
+//   while (points.leftInnerEdge.x > -10) {
+//   for (let p of rotateThese) points[p] = points[p].rotate(1, points.top);
+// //  }
+//  paths.myRotate = new Path().move(points.leftTopEdge).line(points.leftInnerEdge)
+// // excellent!  it works with one... let's try a line maybe?
+
+
+
+
+
+
+
+  // paths.seamNeckR = new Path() //still called a "rect" though now a square
+  //  .move(points.edgeTop) 
+  // .line(points.cbRightTop)
+  // .line(points.cbRight)
+  // .line(points.cbRightBottom)
+  // .line(points.top)
+
+
+ //These from before may want to do this... but without the seamNeckR
+// points.cbLeftTop = points.cbRightTop.flipX()
+ //points.cbLeft = points.cbRight.flipX()
+ //points.cbLeftBottom = points.cbRightBottom.flipX()
 
 
  // this is the left side overlapping from the right that should
