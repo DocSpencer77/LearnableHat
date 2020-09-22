@@ -23,14 +23,14 @@ paths.neck = new Path()
   .move(points.right)
   .curve(points.rightCp1, points.bottomCp2, points.bottom)
 
-  // now the tweak to make sure it's the right size for the head 
+  // now the tweak to make sure it's exactly the right size for the head 
 
   let tweak = 1;
-let target = (measurements.headCircumference * 1.1) /4;
+let target = (measurements.headCircumference*.90) /4;
 let delta;
 do {
-  points.right = new Point(tweak * measurements.headCircumference / 11, 0);
-  points.bottom = new Point(0, tweak * measurements.headCircumference / 11);
+  points.right = new Point(tweak * (measurements.headCircumference/2) / 11, 0);
+  points.bottom = new Point(0, tweak * (measurements.headCircumference/2) / 11);
   //make it round!!
 
 	points.rightCp1 = points.right.shift(90, points.bottom.dy(points.right)/2);
@@ -69,20 +69,18 @@ paths.neck = new Path()
 //here, I've just used the width addition for both but it's still not in the middle
 let width = measurements.headCircumference * .5
 let length = measurements.headCircumference * .5
-
-
 points.topLeft = new Point(width /-2,  points.top.y - (width/2 - points.right.x));
 points.topRight = points.topLeft.shift(0, width);
 points.bottomLeft = points.topLeft.shift(-90, width);
 points.bottomRight = points.topRight.shift(-90, width);
 
-// paths.rect = new Path() //still a "rect" though now a square
-//   .move(points.topLeft)
-//   .line(points.bottomLeft)
-//   .line(points.bottomRight)
-//   .line(points.topRight)
-//   .line(points.topLeft)
-//   .close();
+paths.rect = new Path() //still a "rect" though now a square
+  .move(points.topLeft)
+  .line(points.bottomLeft)
+  .line(points.bottomRight)
+  .line(points.topRight)
+  .line(points.topLeft)
+  .close();
 
   // here we place some control points at the top of our previous bib rectange (path.rect) to
   // prepare for opening up one side of our brim.  We rename a few to make them more specific
@@ -91,9 +89,10 @@ points.bottomRight = points.topRight.shift(-90, width);
   points.edgeRight = new Point(points.topRight.x, points.right.y);
   
   points.edgeTop = new Point(0, points.topLeft.y);
-  //change it to be a bottom point
-  points.edgeBottom = new Point(0, points.bottomLeft.y);
   
+  //change it to be a bottom point
+  //keep this for the left path while hiding the right 
+  points.edgeBottom = new Point(0, points.bottomLeft.y);
   
   // this top one needs a twin on the bottom
   points.edgeLeftCp1 = points.edgeLeft.shiftFractionTowards(points.topLeft, 0.5);
@@ -116,8 +115,11 @@ points.bottomRight = points.topRight.shift(-90, width);
    .curve(points.edgeTopLeftCp, points.edgeLeftCp1, points.edgeLeft)
 
    .curve(points.edgeLeftCp2, points.edgeBottomLeftCp, points.edgeBottom)
+      //this is the right side...
    .curve(points.edgeBottomRightCp, points.edgeRightCp2, points.edgeRight)
+ 
    // this curves around the right side and closes the circle at the top
+   //commented to leave the right have undrawn?
    .curve(points.edgeRightCp1, points.edgeTopRightCp, points.edgeTop)
   
    let centerBackSeamR = points.edgeTop.dy(points.top);
@@ -127,31 +129,33 @@ points.bottomRight = points.topRight.shift(-90, width);
 
 // maybe I can just rotate thos? perhaps the answer is rotating a much longer list.
 // and I need to work my paths out to the ends of the overlapping center back edges, first
-let rotateThese = [
-  "cbRight",
-  "cbRightTop",
-  "cbRightBottom"
-];
-while (points.cbRightBottom.x > -5) {
-  for (let p of rotateThese) points[p] = points[p].rotate(1, points.edgeLeft);
-} 
+// let rotateThese = [
+//   "cbRight",
+//   "cbRightTop",
+//   "cbRightBottom"
+// ];
+// while (points.cbRightBottom.x > -1) {
+//   for (let p of rotateThese) points[p] = points[p].rotate(1, points.edgeLeft);
+// } 
 
  paths.seamNeckR = new Path() //still called a "rect" though now a square
-   
- //rather than top, we'll make the path connect to cb right bottom
- .move(points.cbRightTop)
+  .move(points.edgeTop) 
+ .line(points.cbRightTop)
  .line(points.cbRight)
  .line(points.cbRightBottom)
+ .line(points.top)
 
  points.cbLeftTop = points.cbRightTop.flipX()
  points.cbLeft = points.cbRight.flipX()
  points.cbLeftBottom = points.cbRightBottom.flipX()
 
- paths.seamNeckL = new Path() //still a "rect" though now a square
- .move(points.cbLeftTop)
-.line(points.cbLeft)
-.line(points.cbLeftBottom)
 
+ // this is the left side overlapping from the right that should
+ // rotate with the right side
+//  paths.seamNeckL = new Path() //still a "rect" though now a square
+//  .move(points.cbLeftTop)
+// .line(points.cbLeft)
+// .line(points.cbLeftBottom)
 
 
 
