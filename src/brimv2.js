@@ -40,15 +40,14 @@ do {
   points.rightCp1 = points.right.shift(90, points.bottom.dy(points.right)/2);
 	points.bottomCp2 = points.bottom.shift(0, points.bottom.dx(points.right)/2);
 
-  //weirdest thing.... it won't go away
-  // paths.neck = new Path()
-  //   .move(points.right)
-  //   .curve(points.rightCp1, points.bottomCp2, points.bottom);
+ paths.neck = new Path()
+   .move(points.right)
+   .curve(points.rightCp1, points.bottomCp2, points.bottom);
 
-// 	delta = paths.neck.length() - target;
-//   if (delta > 0) tweak = tweak * 0.99;
-//   else tweak = tweak * 1.02;
-// } while (Math.abs(delta) > 1);
+	delta = paths.neck.length() - target;
+  if (delta > 0) tweak = tweak * 0.99;
+  else tweak = tweak * 1.02;
+} while (Math.abs(delta) > 1);
 
 points.rightCp2 = points.rightCp1.flipY();
 points.bottomCp1 = points.bottomCp2.flipX();
@@ -124,14 +123,12 @@ points.bottomRight = points.topRight.shift(-90, width);
    paths.seam = new Path()
    .move(points.edgeTop) // the top center point of our square box
    .curve(points.edgeTopLeftCp, points.edgeLeftCp1, points.edgeLeft)
-   //.curve(points.edgeLeftCp2, points.edgeBottomLeftCp, points.edgeBottom)
-   
-   //this is the right side...
-   
-    //.curve(points.edgeBottomRightCp, points.edgeRightCp2, points.edgeRight)
+   .curve(points.edgeLeftCp2, points.edgeBottomLeftCp, points.edgeBottom)
+      //this is the right side...
+   .curve(points.edgeBottomRightCp, points.edgeRightCp2, points.edgeRight)
     // this curves around the right side and closes the circle at the top
    //commented to leave the right have undrawn?
-   //.curve(points.edgeRightCp1, points.edgeTopRightCp, points.edgeTop)
+   .curve(points.edgeRightCp1, points.edgeTopRightCp, points.edgeTop)
   
    let centerBackSeamR = points.edgeTop.dy(points.top);
    points.cbRight = points.edgeTop.translate(centerBackSeamR / 2, centerBackSeamR / 2);
