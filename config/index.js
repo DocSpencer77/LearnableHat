@@ -22,19 +22,13 @@ export default {
     "sewing pattern"
   ],
   optionGroups: {
-    //fit: ["size"],
-    //style: ['lengthRatio', 'goreNumber', 'brimAngle', 'brimWidth']
-  },
+      },
   measurements: ["headCircumference"],
   dependencies: {},
   inject: {},
   hide: [],
-  parts: ["hatgore","brimv2"], //add  "brimv2"
+  parts: ["circleCrown",'hatSide'], //add parts as you wish
   options: {
-    //size: { pct: 50, min: 10, max: 100 },
-    //lengthRatio: { pct: 55, min: 40, max: 60 },
-    //goreNumber: { count: 6, min: 4, max: 20 },
-    //brimAngle: { deg: 45, min: 10, max: 90 },
-    //brimWidth: { mm: 30, min: 5, max: 100 }
-  }
+    //size: { pct: 50, min: 10, max: 100 }, //no options on this one, yet!
+    }
 };
