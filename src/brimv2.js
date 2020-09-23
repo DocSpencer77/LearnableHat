@@ -13,9 +13,13 @@ export default function(part) {
 // First, one quarter of the head circumference.  Then we'll flip it up and over
 // to create the rest of the circle
 
+
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+
 //we're setting the right edge and bottom edge generally and will
 //make them the exact size in a bit.
-points.right = new Point(measurements.headCircumference / 10, 0);
+points.right = new Point(measurements.headCircumference / 12, 0);
 points.bottom = new Point(0, measurements.headCircumference / 12);
 
 // the control points are placed at right angles--90 degrees--they'll be used to form  Bezier curves
@@ -36,14 +40,15 @@ do {
   points.rightCp1 = points.right.shift(90, points.bottom.dy(points.right)/2);
 	points.bottomCp2 = points.bottom.shift(0, points.bottom.dx(points.right)/2);
 
- paths.neck = new Path()
-   .move(points.right)
-   .curve(points.rightCp1, points.bottomCp2, points.bottom);
+  //weirdest thing.... it won't go away
+  // paths.neck = new Path()
+  //   .move(points.right)
+  //   .curve(points.rightCp1, points.bottomCp2, points.bottom);
 
-	delta = paths.neck.length() - target;
-  if (delta > 0) tweak = tweak * 0.99;
-  else tweak = tweak * 1.02;
-} while (Math.abs(delta) > 1);
+// 	delta = paths.neck.length() - target;
+//   if (delta > 0) tweak = tweak * 0.99;
+//   else tweak = tweak * 1.02;
+// } while (Math.abs(delta) > 1);
 
 points.rightCp2 = points.rightCp1.flipY();
 points.bottomCp1 = points.bottomCp2.flipX();
@@ -54,16 +59,22 @@ points.leftCp2 = points.rightCp1.flipX();
 
 points.top = points.bottom.flipY();
 points.topCp1 = points.bottomCp2.flipY();
-points.topCp2 = points.bottomCp1.flipY();
+//points.topCp2 = points.bottomCp1.flipY();
 
-paths.neck = new Path()
-  .move(points.top)
-  // now we'll redraw the line all around
-  .curve(points.topCp2, points.leftCp1, points.left) //top left
-  .curve(points.leftCp2, points.bottomCp1, points.bottom) //bottom left
-  .curve(points.bottomCp2, points.rightCp1, points.right) // bottom right
-  .curve(points.rightCp2, points.topCp1, points.top)  // top right quarter
+// paths.neck = new Path()
+//   .move(points.top)
+//   // now we'll redraw the line all around
+//   .curve(points.topCp2, points.leftCp1, points.left) //top left
+//   .curve(points.leftCp2, points.bottomCp1, points.bottom) //bottom left
+//   .curve(points.bottomCp2, points.rightCp1, points.right) // bottom right
+//   .curve(points.rightCp2, points.topCp1, points.top)  // top right quarter
   // .close(); // apparently not needed
+
+
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+
+
 
   // now the box and some difference from the other stuff
 // The original bib code made a rectangle; now it's a square box
@@ -107,21 +118,20 @@ points.bottomRight = points.topRight.shift(-90, width);
   points.edgeTopLeftCp = points.edgeTop.shiftFractionTowards(points.topLeft,0.5);
   points.edgeBottomLeftCp = points.edgeBottom.shiftFractionTowards(points.bottomLeft,0.5);
   points.edgeBottomRightCp = points.edgeBottom.shiftFractionTowards(points.bottomLeft,-0.5);
-
   points.edgeTopRightCp = points.edgeTopLeftCp.flipX();
 
 // here, we use out new control points to curve our corners!
    paths.seam = new Path()
    .move(points.edgeTop) // the top center point of our square box
    .curve(points.edgeTopLeftCp, points.edgeLeftCp1, points.edgeLeft)
-
-   .curve(points.edgeLeftCp2, points.edgeBottomLeftCp, points.edgeBottom)
-      //this is the right side...
-   .curve(points.edgeBottomRightCp, points.edgeRightCp2, points.edgeRight)
- 
-   // this curves around the right side and closes the circle at the top
+   //.curve(points.edgeLeftCp2, points.edgeBottomLeftCp, points.edgeBottom)
+   
+   //this is the right side...
+   
+    //.curve(points.edgeBottomRightCp, points.edgeRightCp2, points.edgeRight)
+    // this curves around the right side and closes the circle at the top
    //commented to leave the right have undrawn?
-   .curve(points.edgeRightCp1, points.edgeTopRightCp, points.edgeTop)
+   //.curve(points.edgeRightCp1, points.edgeTopRightCp, points.edgeTop)
   
    let centerBackSeamR = points.edgeTop.dy(points.top);
    points.cbRight = points.edgeTop.translate(centerBackSeamR / 2, centerBackSeamR / 2);
