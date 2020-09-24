@@ -4,7 +4,7 @@ import config from '../config'
 
 //Parts
 //import draftHatbrim from './hatbrim'
-import draftCircleCrown from './circlecrown'
+import draftCircleCrown from './circleCrown'
 import draftHatSide from './hatSide'
 
 

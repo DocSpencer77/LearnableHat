@@ -1,15 +1,21 @@
   
 export default function(part) {
     let {
+      complete,
+      sa,
       Point,
       points,
       Path,
       paths,
       measurements,
-      options
+      options,
+      snippets,
+      Snippet
     } = part.shorthand();
   
   // Design pattern here
+  sa = 15
+
   points.right = new Point(measurements.headCircumference / 11, 0);
   points.bottom = new Point(0, measurements.headCircumference / 11);
   
@@ -116,18 +122,44 @@ export default function(part) {
      points.cbRightTop = new Point(points.cbRight.x, points.edgeTop.y);
      points.cbRightBottom = new Point(points.cbRight.x, points.top.y);
      */
-  
-  
+   
   
     // Complete?
-  
     if (complete) {
+      points.logo = points.topLeft.shiftFractionTowards(points.bottomRight, 0.5)
+      snippets.logo = new Snippet('logo', points.logo)
+      points.text = points.logo
+        //.shift(-90, w / 8)
+        .shift(-90, 50)
+        .attr('data-text', 'Hat Crown')
+        .attr('data-text-class', 'center')
+    
+        //this is what draws the seam allowance around your pattern piece.
+        // if you don't want a seam allowance or the edge is on the fold,
+        // you will not want the path on that edge to be called "seam"
       if (sa) {
-      }
-      // Paperless?
-      if (paperless) {
+        paths.sa = paths.seam.offset(sa).attr('class', 'fabric sa')
       }
     }
+    
+    // // Paperless?
+    // if (paperless) {
+    //   macro('hd', {
+    //     from: points.bottomLeft,
+    //     to: points.bottomRight,
+    //     y: points.bottomLeft.y + sa + 15
+    //   })
+    //   macro('vd', {
+    //     from: points.bottomRight,
+    //     to: points.topRight,
+    //     x: points.topRight.x + sa + 15
+    //  })
+    //}
+    
+
+      
+ 
+    
     return part;
   }
   
